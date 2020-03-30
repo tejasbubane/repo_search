@@ -1,11 +1,27 @@
 <div class="container">
-  <h1>Repo Search</h1>
+  <a href="/"><h1>Repo Search</h1></a>
 
   <form class="form-inline" action="/search" method="post">
     <div class="form-group mx-sm-3 mb-2">
       <input type="text" class="form-control plaintext"
-             id="searchbox" name="query" placeholder="type repo name">
+             id="searchbox" name="query" placeholder="type repo name" value="<%= @query %>">
     </div>
     <button type="submit" class="btn btn-primary mb-2">Search</button>
   </form>
+
+  <% unless @results.nil? %>
+    <% @results.each_slice(5) do |repos| %>
+      <div class="card-deck" style="margin-top: 20px">
+        <% repos.each do |repo| %>
+          <div class="card">
+            <img class="card-img-top" style="height:180px; width:100%; display:block;" src="<%= repo[:owner][:avatar_url]  %>" alt="<%= repo[:full_name] %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= repo[:full_name] %></h5>
+              <p class="card-text"><%= repo[:description] %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 </div>
